@@ -68,5 +68,16 @@ public class HandlerConfiguration {
                         externalTaskService.handleBpmnError(externalTask, externalTask.getId(), "Something went wrong!" + e);
                     }
                 }).open();
+
+        externalTaskClient
+                .subscribe("training_angebot_einholen")
+                .handler((externalTask, externalTaskService) -> {
+                        externalTaskService.complete(externalTask, variables);
+                        logger.info(angebot.toString());
+                    } catch (Exception e) {
+                        logger.error("Fehler: ", e);
+                        externalTaskService.handleBpmnError(externalTask, externalTask.getId(), "Something went wrong!" + e);
+                    }
+                }).open();
     }
 }
