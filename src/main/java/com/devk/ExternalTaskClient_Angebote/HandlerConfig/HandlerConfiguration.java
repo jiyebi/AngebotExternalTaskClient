@@ -64,5 +64,10 @@ public class HandlerConfiguration {
                         externalTaskService.handleBpmnError(externalTask, externalTask.getId(), "Something went wrong!" + e);
                     }
                 }).open();
+
+        externalTaskClient.subscribe("Startzeit_festlegen").handler((externalTask, externalTaskService) -> {
+            externalTaskService.complete(externalTask);
+
+        }).open();
     }
 }
