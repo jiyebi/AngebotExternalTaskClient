@@ -66,14 +66,9 @@ public class HandlerConfiguration {
                 }).open();
 
         externalTaskClient
-                .subscribe("training_angebot_einholen")
+                .subscribe("Startzeit_festlegen")
                 .handler((externalTask, externalTaskService) -> {
-                        externalTaskService.complete(externalTask, variables);
-                        logger.info(angebot.toString());
-                    } catch (Exception e) {
-                        logger.error("Fehler: ", e);
-                        externalTaskService.handleBpmnError(externalTask, externalTask.getId(), "Something went wrong!" + e);
-                    }
+                        externalTaskService.complete(externalTask);
                 }).open();
     }
 }
