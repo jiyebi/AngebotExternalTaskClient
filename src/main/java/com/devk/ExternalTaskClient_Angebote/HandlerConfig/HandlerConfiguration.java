@@ -42,26 +42,21 @@ public class HandlerConfiguration {
                     try {
 
                         RestTemplate restTemplate = new RestTemplate();
-                        Angebot angebotClient = Angebot.builder().build();
-                        JSONObject angebotJSONObject = new JSONObject(angebotClient);
-                        HttpHeaders headers = new HttpHeaders();
-                        HttpEntity request = new HttpEntity(headers);
-                        headers.setContentType(MediaType.APPLICATION_JSON);
-                        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
                         logger.info("nur ein Test:");
 
-                        final String url = "http://localhost:8085/Angebote/1";
+                        final String url = "http://localhost:8085/Angebote/3";
+                        Angebot angebot =  restTemplate.getForObject(url, Angebot.class);
 
-                        Map<String, Object> map = new HashMap<String, Object>();
-                        List<Angebot> angebotList = new ArrayList<Angebot>();
-                        map.put("AngebotListe", angebotList);
-                        angebotList = (List) restTemplate.getForObject(url, Angebot.class);
-                        logger.info(angebotList.toString());
-                        externalTaskService.complete(externalTask, map);
-                        logger.info(angebotList.toString());
+                        Map<String, Object> variable = new HashMap<String, Object>();
+                        variable.put("Angebot", angebot);
+
+                        logger.info(angebot.toString());
+
+                        externalTaskService.complete(externalTask, variable);
+
                     } catch (Exception e) {
                         logger.error("Fehler: ", e);
-                        externalTaskService.handleBpmnError(externalTask, externalTask.getId(), "Something went wrong!" + e);
+                        externalTaskService.handleFailure(externalTask, externalTask.getId(), e.getMessage(), 1, 100L);
                     }
                 }).open();
 
