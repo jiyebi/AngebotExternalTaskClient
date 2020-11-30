@@ -1,8 +1,6 @@
 package com.devk.ExternalTaskClient_Angebote.HandlerConfig;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import com.devk.ExternalTaskClient_Angebote.Model.Angebot;
 import org.camunda.bpm.client.ExternalTaskClient;
@@ -34,14 +32,14 @@ public class HandlerConfiguration {
                 .maxTasks(3).backoffStrategy(fetchTimer)
                 .build();
 
+        logger.info("Angebote werden eingeholt...1111");
+
         externalTaskClient
                 .subscribe("training_angebot_einholen")
                 .handler((externalTask, externalTaskService) -> {
 
                     logger.info("Angebote werden eingeholt...");
                     try {
-                        int moneyValue = externalTask.getVariable("moneyValue");
-                        Map<String, Object> variables = new HashMap<>();
 
                         RestTemplate restTemplate = new RestTemplate();
                         Angebot angebotClient = Angebot.builder().build();
@@ -53,16 +51,14 @@ public class HandlerConfiguration {
                         logger.info("nur ein Test:");
 
                         final String url = "http://localhost:8085/Angebote/1";
-                        HttpEntity<Angebot> response = restTemplate.exchange(
-                                url,
-                                HttpMethod.GET,
-                                request,
-                                Angebot.class
-                        );
-                        Angebot angebot = restTemplate.getForObject(url, Angebot.class);
-                        logger.info(response.getBody().toString());
-                        externalTaskService.complete(externalTask, variables);
-                        logger.info(angebot.toString());
+
+                        Map<String, Object> map = new HashMap<String, Object>();
+                        List<Angebot> angebotList = new ArrayList<Angebot>();
+                        map.put("AngebotListe", angebotList);
+                        angebotList = (List) restTemplate.getForObject(url, Angebot.class);
+                        logger.info(angebotList.toString());
+                        externalTaskService.complete(externalTask, map);
+                        logger.info(angebotList.toString());
                     } catch (Exception e) {
                         logger.error("Fehler: ", e);
                         externalTaskService.handleBpmnError(externalTask, externalTask.getId(), "Something went wrong!" + e);
