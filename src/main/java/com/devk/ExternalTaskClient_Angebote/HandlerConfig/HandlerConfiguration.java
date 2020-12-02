@@ -10,10 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 
@@ -44,12 +41,19 @@ public class HandlerConfiguration {
                         RestTemplate restTemplate = new RestTemplate();
                         logger.info("nur ein Test:");
 
-                        final String url = "http://localhost:8085/Angebote/3";
-                        Angebot angebot =  restTemplate.getForObject(url, Angebot.class);
+                        final String url = "http://localhost:8085/Angebote/besteAngebote/";
+                       // List<Angebot> angebotList =  restTemplate.getForObject(url,  );
+
+
+                        ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
+                        Object[] angebot = responseEntity.getBody();
+                        MediaType contentType = responseEntity.getHeaders().getContentType();
+                        HttpStatus statusCode = responseEntity.getStatusCode();
 
                         Map<String, Object> variable = new HashMap<String, Object>();
                         variable.put("Angebot", angebot);
 
+                     // TODO: die Liste mit drei Angebote in der Console ausgeben
                         logger.info(angebot.toString());
 
                         externalTaskService.complete(externalTask, variable);
