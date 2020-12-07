@@ -42,11 +42,10 @@ public class HandlerConfiguration {
                         logger.info("nur ein Test:");
 
                         final String url = "http://localhost:8085/Angebote/besteAngebote/";
-                       // List<Angebot> angebotList =  restTemplate.getForObject(url,  );
 
 
-                        ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
-                        Object[] angebot = responseEntity.getBody();
+                        ResponseEntity<Angebot[]> responseEntity = restTemplate.getForEntity(url, Angebot[].class);
+                        Angebot[] angebot = responseEntity.getBody();
                         MediaType contentType = responseEntity.getHeaders().getContentType();
                         HttpStatus statusCode = responseEntity.getStatusCode();
 
@@ -54,8 +53,9 @@ public class HandlerConfiguration {
                         variable.put("Angebot", angebot);
 
                      // TODO: die Liste mit drei Angebote in der Console ausgeben
-                        logger.info(angebot.toString());
-
+                        for (Angebot a: angebot) {
+                            logger.info(a.toString());
+                        }
                         externalTaskService.complete(externalTask, variable);
 
                     } catch (Exception e) {
