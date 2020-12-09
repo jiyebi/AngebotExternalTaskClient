@@ -42,8 +42,10 @@ public class HandlerConfiguration {
 
                     logger.info("Angebote werden eingeholt...");
                     try {
+
                         Map<String, Object> variable = new HashMap<String, Object>();
                         variable.put("Angebot", service.angebotsListeVonAngebotsServerHolen());
+                        logger.info(service.angebotsListeVonAngebotsServerHolen());
                         externalTaskService.complete(externalTask, variable);
                     } catch (Exception e) {
                         logger.error("Fehler: ", e);
