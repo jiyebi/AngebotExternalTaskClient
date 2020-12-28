@@ -13,13 +13,17 @@ import java.time.LocalDate;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Angebot {
 
-    private long angebotsID;
+    private long id;
 
-    private String angebotsName;
+    private String name;
 
-    private long angebotsEinzelpreis;
+    private String adresse;
 
-    private long angebotsGesamtpreis;
+    private long einzelpreis;
+
+    private String beschreibung;
+
+    private long gesamtpreis;
 
     private int menge;
 

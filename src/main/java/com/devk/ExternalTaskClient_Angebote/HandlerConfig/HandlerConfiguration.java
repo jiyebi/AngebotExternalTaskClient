@@ -2,27 +2,24 @@ package com.devk.ExternalTaskClient_Angebote.HandlerConfig;
 
 import java.util.*;
 
-import com.devk.ExternalTaskClient_Angebote.Model.Angebot;
-import com.devk.ExternalTaskClient_Angebote.Service.AngebotsListeService;
+import com.devk.ExternalTaskClient_Angebote.Controller.HandlerController;
+import com.devk.ExternalTaskClient_Angebote.Service.HandlerService;
 import org.camunda.bpm.client.ExternalTaskClient;
 import org.camunda.bpm.client.backoff.ExponentialBackoffStrategy;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.*;
-import org.springframework.web.client.RestTemplate;
 
 
 @Configuration
 public class HandlerConfiguration {
     private final Logger logger = LoggerFactory.getLogger(HandlerConfiguration.class);
 
-    private final AngebotsListeService service;
+    private final HandlerController handlerController;
 
-    public HandlerConfiguration(AngebotsListeService service) {
-        this.service = service;
+    public HandlerConfiguration(HandlerService service, HandlerController handlerController) {
+        this.handlerController = handlerController;
     }
 
     @Bean
@@ -44,8 +41,8 @@ public class HandlerConfiguration {
                     try {
 
                         Map<String, Object> variable = new HashMap<String, Object>();
-                        variable.put("Angebot", service.angebotsListeVonAngebotsServerHolen());
-                        logger.info(service.angebotsListeVonAngebotsServerHolen());
+                        variable.put("threeBestOffers", handlerController.getThreeBestOffersFromServer("abc",3));
+                        logger.info(handlerController.getThreeBestOffersFromServer("abc",3).toString());
                         externalTaskService.complete(externalTask, variable);
                     } catch (Exception e) {
                         logger.error("Fehler: ", e);
