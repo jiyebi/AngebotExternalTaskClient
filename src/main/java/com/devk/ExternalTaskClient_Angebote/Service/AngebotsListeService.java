@@ -1,10 +1,12 @@
 package com.devk.ExternalTaskClient_Angebote.Service;
 
 import com.devk.ExternalTaskClient_Angebote.HandlerConfig.HandlerConfiguration;
-import com.devk.ExternalTaskClient_Angebote.Model.Angebot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -45,7 +47,7 @@ public class AngebotsListeService {
 
 
         Map<String, Object> variable = new HashMap<String, Object>();
-        variable.put("Angebot", jsonResponseBody);
+        variable.put("AngebotsListe", jsonResponseBody);
 
         return jsonResponseBody;
     }

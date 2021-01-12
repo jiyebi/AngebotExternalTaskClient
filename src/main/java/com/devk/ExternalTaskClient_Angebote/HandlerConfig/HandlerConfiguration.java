@@ -1,18 +1,15 @@
 package com.devk.ExternalTaskClient_Angebote.HandlerConfig;
 
-import java.util.*;
-
-import com.devk.ExternalTaskClient_Angebote.Model.Angebot;
 import com.devk.ExternalTaskClient_Angebote.Service.AngebotsListeService;
 import org.camunda.bpm.client.ExternalTaskClient;
 import org.camunda.bpm.client.backoff.ExponentialBackoffStrategy;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.*;
-import org.springframework.web.client.RestTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Configuration
@@ -44,7 +41,7 @@ public class HandlerConfiguration {
                     try {
 
                         Map<String, Object> variable = new HashMap<String, Object>();
-                        variable.put("Angebot", service.angebotsListeVonAngebotsServerHolen());
+                        variable.put("AngebotsListe", service.angebotsListeVonAngebotsServerHolen()); // Angebotsliste wird vom Server geholt
                         logger.info(service.angebotsListeVonAngebotsServerHolen());
                         externalTaskService.complete(externalTask, variable);
                     } catch (Exception e) {
