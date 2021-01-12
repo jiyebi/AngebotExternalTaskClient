@@ -2,6 +2,7 @@ package com.devk.ExternalTaskClient_Angebote.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import java.time.LocalDate;
 
@@ -11,15 +12,20 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
+@EntityScan
 public class Angebot {
 
-    private long angebotsID;
+    private long id;
 
-    private String angebotsName;
+    private String name;
 
-    private long angebotsEinzelpreis;
+    private String adresse;
 
-    private long angebotsGesamtpreis;
+    private long einzelpreis;
+
+    private String beschreibung;
+
+    private long gesamtpreis;
 
     private int menge;
 
